@@ -1,6 +1,6 @@
 export const GET_IMAGES = /* GraphQL */ `
-  query GetImages($limit: Int, $cursor: ID, $category: String, $type: String) {
-    images(limit: $limit, cursor: $cursor, category: $category, type: $type) {
+  query GetImages($limit: Int, $cursor: ID, $category: String, $type: String, $search: String) {
+    images(limit: $limit, cursor: $cursor, category: $category, type: $type, search: $search) {
       data {
         id
         title
@@ -9,11 +9,7 @@ export const GET_IMAGES = /* GraphQL */ `
         width
         height
         type
-        category {
-          id
-          name
-          slug
-        }
+        category { id name slug }
       }
       nextCursor
     }

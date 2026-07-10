@@ -8,17 +8,19 @@ const PAGE_SIZE = 20;
 type UseInfiniteImagesParams = {
   category?: string | null;
   type?: string | null;
+  search?: string | null;
 };
 
-export function useInfiniteImages({ category, type }: UseInfiniteImagesParams) {
+export function useInfiniteImages({ category, type, search }: UseInfiniteImagesParams) {
   return useInfiniteQuery({
-    queryKey: ["images", category ?? null, type ?? null],
+    queryKey: ["images", category ?? null, type ?? null, search ?? null],
     queryFn: async ({ pageParam }) => {
       const response = await gqlClient.request<GetImagesResponse>(GET_IMAGES, {
         limit: PAGE_SIZE,
         cursor: pageParam,
         category: category ?? undefined,
         type: type ?? undefined,
+        search: search || undefined,
       });
       return response.images;
     },

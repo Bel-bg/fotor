@@ -33,7 +33,7 @@ const typeDefs = /* GraphQL */ `
     - category: slug de catégorie, ex "nature"
     - type: ex "photo", "illustration", "gif"
     """
-    images(limit: Int, cursor: ID, category: String, type: String): ImagePage!
+    images(limit: Int, cursor: ID, category: String, type: String, search: String): ImagePage!
     image(id: ID!): Image
     categories: [Category!]!
   }

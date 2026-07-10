@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/providers/QueryProvider";
+import Sidebar from "@/components/Sidebar";
+import TopNavbar from "@/components/TopNavbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -26,10 +29,20 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${poppins.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white">
-        <QueryProvider>{children}</QueryProvider>
+      <body className="min-h-full bg-bg text-ink font-sans">
+        <QueryProvider>
+          <div className="flex min-h-screen">
+            <Sidebar />
+            <div className="flex-1 pl-[72px]">
+              <TopNavbar />
+              <div className="pt-16">
+                {children}
+              </div>
+            </div>
+          </div>
+        </QueryProvider>
       </body>
     </html>
   );

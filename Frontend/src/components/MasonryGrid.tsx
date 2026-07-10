@@ -12,15 +12,24 @@ const BREAKPOINT_COLUMNS = {
   500: 2,
 };
 
-export function MasonryGrid({ images }: { images: FotorImage[] }) {
+interface MasonryGridProps {
+  images: FotorImage[];
+  onImageClick?: (index: number) => void;
+}
+
+export function MasonryGrid({ images, onImageClick }: MasonryGridProps) {
   return (
     <Masonry
       breakpointCols={BREAKPOINT_COLUMNS}
       className="flex w-full gap-4"
       columnClassName="flex flex-col"
     >
-      {images.map((image) => (
-        <ImageCard key={image.id} image={image} />
+      {images.map((image, index) => (
+        <ImageCard
+          key={image.id}
+          image={image}
+          onClick={() => onImageClick?.(index)}
+        />
       ))}
     </Masonry>
   );

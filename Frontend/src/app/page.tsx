@@ -15,13 +15,6 @@ export default async function HomePage() {
 
   return (
     <main className="flex-1">
-      <header className="border-b border-neutral-100 px-4 py-6">
-        <h1 className="text-2xl font-bold text-neutral-900">Fotor</h1>
-        <p className="text-sm text-neutral-500">
-          Explore un catalogue infini d&apos;images
-        </p>
-      </header>
-
       <Catalogue categories={categories} />
     </main>
   );

@@ -38,11 +38,33 @@ const resolvers = {
       return { data, nextCursor };
     },
 
-    async image(_parent, { id }) {
-      const image = await prisma.image.findUnique({ where: { id: Number(id) } });
-      if (!image) throw notFound("Image non trouvée");
-      return image;
-    },
+    async images(_parent, { limit, cursor, category, type, search }) {
+  const take = Math.min(limit || DEFAULT_LIMIT, MAX_LIMIT);
+  const where = {};
+
+  if (category) where.category = { slug: category };
+  if (type) where.type = type;
+  if (search) {
+    where.OR = [
+      { title: { contains: search, mode: "insensitive" } },
+      { description: { contains: search, mode: "insensitive" } },
+    ];
+  }
+
+  const images = await prisma.image.findMany({
+    where,
+    take: take + 1,
+    ...(cursor && { skip: 1, cursor: { id: Number(cursor) } }),
+    orderBy: { id: "desc" },
+  });
+
+  const hasNextPage = images.length > take;
+  const data = hasNextPage ? images.slice(0, take) : images;
+  const nextCursor = hasNextPage ? data[data.length - 1].id : null;
+
+  return { data, nextCursor };
+},
+    
 
     async categories() {
       return prisma.category.findMany({ orderBy: { name: "asc" } });
